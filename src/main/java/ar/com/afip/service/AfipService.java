@@ -1,22 +1,25 @@
-package ar.com.afip;
+package ar.com.afip.service;
 
-import org.bouncycastle.cms.*;
+import org.bouncycastle.cms.CMSProcessable;
+import org.bouncycastle.cms.CMSProcessableByteArray;
+import org.bouncycastle.cms.CMSSignedData;
+import org.bouncycastle.cms.CMSSignedDataGenerator;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.bouncycastle.util.encoders.Base64;
-import org.junit.Test;
 
 import javax.xml.bind.DatatypeConverter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.IOException;
-import java.security.*;
-import java.security.cert.*;
+import java.security.KeyStore;
+import java.security.PrivateKey;
+import java.security.Security;
+import java.security.cert.CertStore;
+import java.security.cert.CollectionCertStoreParameters;
+import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 
-public class AppTest {
+public class AfipService {
 
-    @Test
-    public void generar() throws KeyStoreException, CertificateException, NoSuchAlgorithmException, IOException, UnrecoverableKeyException, NoSuchProviderException, InvalidAlgorithmParameterException, CertStoreException, CMSException {
+    public String generateLoginCMS() throws Exception {
         String tra1 = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<loginTicketRequest version=\"1.0\">\n" +
                 " <header>\n" +
@@ -33,8 +36,8 @@ public class AppTest {
                 "<loginTicketRequest version=\"1.0\">\n" +
                 " <header>\n" +
                 "  <uniqueId>1279058341</uniqueId>\n" +
-                "  <generationTime>2017-04-02T18:19:01</generationTime>\n" +
-                "  <expirationTime>2017-04-02T19:39:01</expirationTime>\n" +
+                "  <generationTime>2018-01-16T13:19:01</generationTime>\n" +
+                "  <expirationTime>2018-01-16T14:39:01</expirationTime>\n" +
                 " </header>\n" +
                 " <service>wsfe</service>\n" +
                 "</loginTicketRequest>";
@@ -78,6 +81,6 @@ public class AppTest {
         //
         byte[] asn1_cms = signed.getEncoded();
 
-        System.out.println(DatatypeConverter.printBase64Binary(asn1_cms));
+        return DatatypeConverter.printBase64Binary(asn1_cms);
     }
 }
